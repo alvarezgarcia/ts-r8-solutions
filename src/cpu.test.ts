@@ -30,4 +30,14 @@ describe("CPU", () => {
     cpu.step();
     expect(cpu.pc).toBe(2);
   });
+
+  it("runs until halted", () => {
+    const cpu = CPU();
+
+    cpu.memory[0] = 1;
+    cpu.memory[1] = 0;
+
+    cpu.run();
+    expect(cpu.pc).toBe(2);
+  });
 });
