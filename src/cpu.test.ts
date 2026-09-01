@@ -17,4 +17,17 @@ describe("CPU", () => {
     cpu.step();
     expect(cpu.pc).toBe(1);
   });
+
+  it("step increments PC twice", () => {
+    const cpu = CPU();
+
+    cpu.memory[0] = 1;
+    cpu.memory[1] = 1;
+
+    cpu.step();
+    expect(cpu.pc).toBe(1);
+
+    cpu.step();
+    expect(cpu.pc).toBe(2);
+  });
 });
