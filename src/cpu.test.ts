@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { CPU, Opcode } from "./";
+import { CPU } from "./";
 
 describe("CPU", () => {
   it("initialises CPU", () => {
@@ -12,10 +12,9 @@ describe("CPU", () => {
   it("step increments PC", () => {
     const cpu = CPU();
 
-    cpu.pc = 256;
-    cpu.memory[cpu.pc] = Opcode.NOP;
+    cpu.memory[0] = 1;
 
     cpu.step();
-    expect(cpu.pc).toBe(257);
+    expect(cpu.pc).toBe(1);
   });
 });
