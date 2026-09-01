@@ -1,33 +1,19 @@
-import { Opcode } from './opcodes';
-
-const MEM_SIZE = 65536;
+const MEM_SIZE = 256;
 
 export const CPU = () => {
   const memory = new Uint8Array(MEM_SIZE);
   let halt = false;
   let pc = 0;
 
-  const setPC = (value: number) => {
-    pc = value & 0xffff;
-  };
-
-  const incrementPC = () => {
-    setPC(pc + 1);
-  };
-
-  const fetchAndAdvance = () => {
-    const opcode = memory[pc];
-    incrementPC();
-    return opcode;
-  };
-
   const step = () => {
-    const opcode = fetchAndAdvance();
+    const opcode = memory[pc];
+    pc++;
+
     switch (opcode) {
-      case Opcode.NOP:
+      case 1:
         break;
 
-      case Opcode.HALT:
+      case 0:
         halt = true;
         break;
 
@@ -47,7 +33,7 @@ export const CPU = () => {
       return pc;
     },
     set pc(value: number) {
-      setPC(value);
+      value = 0;
     },
     memory,
     step,

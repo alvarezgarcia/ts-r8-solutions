@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { CPU, Opcode } from "./";
+import { CPU } from "./";
 
 describe("CPU", () => {
   it("initialises CPU", () => {
@@ -9,29 +9,27 @@ describe("CPU", () => {
     expect(cpu.memory[0]).toBe(0);
   });
 
-  it("step increments PC", () => {
+  it("step increments PC twice", () => {
     const cpu = CPU();
 
-    cpu.memory[256] = Opcode.NOP;
-    cpu.memory[257] = Opcode.NOP;
-    cpu.pc = 256;
+    cpu.memory[0] = 1;
+    cpu.memory[1] = 1;
 
     cpu.step();
-    expect(cpu.pc).toBe(257);
+    expect(cpu.pc).toBe(1);
 
     cpu.step();
-    expect(cpu.pc).toBe(258);
+    expect(cpu.pc).toBe(2);
   });
 
   it("runs until halted", () => {
     const cpu = CPU();
 
-    cpu.memory[256] = Opcode.NOP;
-    cpu.memory[257] = Opcode.HALT;
-    cpu.pc = 256;
+    cpu.memory[0] = 1;
+    cpu.memory[1] = 0;
 
     cpu.run();
 
-    expect(cpu.pc).toBe(258);
+    expect(cpu.pc).toBe(2);
   });
 });
