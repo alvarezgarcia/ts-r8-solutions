@@ -1,3 +1,5 @@
+import { OpCodes } from "./opcodes";
+
 const MEM_SIZE = 256;
 
 export const CPU = () => {
@@ -15,11 +17,11 @@ export const CPU = () => {
     const opcode = memory[pc];
     pc++;
     switch (opcode) {
-      case 0:
+      case OpCodes.HALT:
         halt = true;
         break;
 
-      case 1:
+      case OpCodes.NOP:
         break;
 
       default:
