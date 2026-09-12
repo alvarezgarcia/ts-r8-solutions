@@ -5,6 +5,7 @@ const MEM_SIZE = 256;
 export const CPU = () => {
   const memory = new Uint8Array(MEM_SIZE);
   let pc = 0;
+  let rA = 0;
   let halt = false;
 
   const run = () => {
@@ -32,6 +33,9 @@ export const CPU = () => {
   return {
     get pc() {
       return pc;
+    },
+    get A() {
+      return rA;
     },
     memory,
     step,
