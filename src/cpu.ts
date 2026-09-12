@@ -25,6 +25,10 @@ export const CPU = () => {
       case OpCodes.NOP:
         break;
 
+      case OpCodes.INC:
+        rA++;
+        break;
+
       default:
         throw new Error(`Unknown opcode: 0x${opcode.toString(16)}`)
     }
