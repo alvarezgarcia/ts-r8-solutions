@@ -6,6 +6,7 @@ describe("CPU", () => {
     const cpu = CPU();
 
     expect(cpu.pc).toBe(0);
+    expect(cpu.A).toBe(0);
     expect(cpu.memory[0]).toBe(0);
   });
 
