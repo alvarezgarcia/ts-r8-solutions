@@ -1,9 +1,13 @@
 const MEM_SIZE = 65536;
 
+enum Register {
+  A
+};
+
 export const CPU = () => {
   const memory = new Array(MEM_SIZE).fill(0);
+  const regs = new Uint8Array(Register.A + 1);
   let PC = 0;
-  let rA = 0;
 
   const step = () => {
     const opcode = memory[PC];
@@ -14,7 +18,7 @@ export const CPU = () => {
         break;
 
       case 48:
-        rA++;
+        regs[Register.A]++;
         break;
 
       default:
@@ -27,7 +31,10 @@ export const CPU = () => {
       return PC;
     },
     get A() {
-      return rA;
+      return regs[Register.A];
+    },
+    set A(value: number) {
+      regs[Register.A] = value;
     },
     memory,
     step,
