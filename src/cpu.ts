@@ -13,6 +13,10 @@ export const CPU = () => {
       case 1:
         break;
 
+      case 48:
+        rA++;
+        break;
+
       default:
         throw new Error(`Unknown opcode ${opcode}`)
     }

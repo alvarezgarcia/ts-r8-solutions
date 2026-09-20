@@ -31,4 +31,13 @@ describe("CPU", () => {
     cpu.step();
     expect(cpu.PC).toBe(2);
   });
+
+  it("inc increments A register", () => {
+    const cpu = CPU();
+
+    cpu.memory[0] = 48;
+
+    cpu.step();
+    expect(cpu.A).toBe(1);
+  });
 });
