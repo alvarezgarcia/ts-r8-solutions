@@ -21,6 +21,10 @@ export const CPU = () => {
         regs[Register.A]++;
         break;
 
+      case 64:
+        regs[Register.A]--;
+        break;
+
       default:
         throw new Error(`Unknown opcode ${opcode}`)
     }

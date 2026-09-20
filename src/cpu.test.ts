@@ -50,4 +50,14 @@ describe("CPU", () => {
     cpu.step();
     expect(cpu.A).toBe(0);
   });
+
+  it("dec wraps A register from 0 to 255", () => {
+    const cpu = CPU();
+
+    cpu.memory[0] = 64;
+    cpu.A = 0;
+
+    cpu.step();
+    expect(cpu.A).toBe(255);
+  });
 });
