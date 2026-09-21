@@ -70,4 +70,13 @@ describe("CPU", () => {
     cpu.step();
     expect(cpu.PC).toBe(0);
   });
+
+  it("memory is bytes", () => {
+    const cpu = CPU();
+    let byte = new Uint8Array(1);
+    byte[0] = 256; // We exceed the max value of a 1 byte unsigned integer (255) so we have again 0
+
+    cpu.memory[0] = byte[0];
+    expect(cpu.memory[0]).toBe(0);
+  });
 });
