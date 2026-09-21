@@ -79,4 +79,14 @@ describe("CPU", () => {
     cpu.memory[0] = byte[0];
     expect(cpu.memory[0]).toBe(0);
   });
+
+  it("runs until halted", () => {
+    const cpu = CPU();
+
+    cpu.memory[0] = 1;
+    cpu.memory[1] = 0;
+
+    cpu.run();
+    expect(cpu.PC).toBe(2);
+  });
 });
