@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { CPU } from "./";
+import { CPU, OpCode } from "./";
 
 describe("CPU", () => {
   it("initialises CPU", () => {
@@ -13,7 +13,7 @@ describe("CPU", () => {
   it("step increments PC", () => {
     const cpu = CPU();
 
-    cpu.memory[0] = 1;
+    cpu.memory[0] = OpCode.NOP;
 
     cpu.step();
     expect(cpu.PC).toBe(1);
@@ -22,8 +22,8 @@ describe("CPU", () => {
   it("step increments PC twice", () => {
     const cpu = CPU();
 
-    cpu.memory[0] = 1;
-    cpu.memory[1] = 1;
+    cpu.memory[0] = OpCode.NOP;
+    cpu.memory[1] = OpCode.NOP;
 
     cpu.step();
     expect(cpu.PC).toBe(1);
@@ -35,7 +35,7 @@ describe("CPU", () => {
   it("inc increments A register", () => {
     const cpu = CPU();
 
-    cpu.memory[0] = 48;
+    cpu.memory[0] = OpCode.INC;
 
     cpu.step();
     expect(cpu.A).toBe(1);
@@ -44,7 +44,7 @@ describe("CPU", () => {
   it("inc wraps A register from 255 to 0", () => {
     const cpu = CPU();
 
-    cpu.memory[0] = 48;
+    cpu.memory[0] = OpCode.INC;
     cpu.A = 255;
 
     cpu.step();
@@ -54,7 +54,7 @@ describe("CPU", () => {
   it("dec wraps A register from 0 to 255", () => {
     const cpu = CPU();
 
-    cpu.memory[0] = 64;
+    cpu.memory[0] = OpCode.DEC;
     cpu.A = 0;
 
     cpu.step();
@@ -64,7 +64,7 @@ describe("CPU", () => {
   it("step wraps PC register from 65535 to 0", () => {
     const cpu = CPU()
 
-    cpu.memory[65535] = 1;
+    cpu.memory[65535] = OpCode.NOP;
     cpu.PC = 65535;
 
     cpu.step();
@@ -83,8 +83,8 @@ describe("CPU", () => {
   it("runs until halted", () => {
     const cpu = CPU();
 
-    cpu.memory[0] = 1;
-    cpu.memory[1] = 0;
+    cpu.memory[0] = OpCode.NOP;
+    cpu.memory[1] = OpCode.HALT;
 
     cpu.run();
     expect(cpu.PC).toBe(2);

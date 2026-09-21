@@ -1,3 +1,5 @@
+import { OpCode } from "./opcodes";
+
 const MEM_SIZE = 65536;
 
 enum Register {
@@ -19,18 +21,18 @@ export const CPU = () => {
     regs16[Register16.PC]++;
 
     switch (opcode) {
-      case 0:
+      case OpCode.HALT:
         halt = true;
         break;
 
-      case 1:
+      case OpCode.NOP:
         break;
 
-      case 48:
+      case OpCode.INC:
         regs8[Register.A]++;
         break;
 
-      case 64:
+      case OpCode.DEC:
         regs8[Register.A]--;
         break;
 
