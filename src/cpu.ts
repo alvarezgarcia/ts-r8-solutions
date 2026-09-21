@@ -12,12 +12,17 @@ export const CPU = () => {
   const memory = new Uint8Array(MEM_SIZE);
   const regs8 = new Uint8Array(Register.A + 1);
   const regs16 = new Uint16Array(Register16.PC + 1);
+  let halt = false;
 
   const step = () => {
     const opcode = memory[regs16[Register16.PC]];
     regs16[Register16.PC]++;
 
     switch (opcode) {
+      case 0:
+        halt = true;
+        break;
+
       case 1:
         break;
 
@@ -31,6 +36,12 @@ export const CPU = () => {
 
       default:
         throw new Error(`Unknown opcode: 0x${opcode.toString(16)}`)
+    }
+  };
+
+  const run = () => {
+    while (!halt) {
+      step();
     }
   };
 
@@ -49,5 +60,6 @@ export const CPU = () => {
     },
     memory,
     step,
+    run
   };
 };
