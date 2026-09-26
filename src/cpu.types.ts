@@ -1,10 +1,14 @@
 export interface CPU {
-  readonly PC: number;
   readonly memory: number[];
+  PC: number;
   A: number;
   step(): void;
 };
 
-export enum Register {
+export enum Register8 {
   A
+};
+
+export enum Register16 {
+  PC
 };
