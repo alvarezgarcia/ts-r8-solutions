@@ -12,6 +12,11 @@ With at least node `20.19+` version install the dependencies:
 $ npm i
 ```
 
+## Monitor
+```
+$ npm run monitor
+```
+
 ## Test
 ```
 $ npm test
