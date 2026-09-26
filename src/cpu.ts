@@ -8,7 +8,12 @@ export const CreateCPU = (): CPU => {
   let rA = 0;
 
   const step = () => {
+    const opcode = memory[PC];
     PC++;
+
+    if (opcode === 48) {
+      rA++;
+    }
   };
 
   return {
