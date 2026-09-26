@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "main": "index.js",
   "scripts": {
-    "test": "vitest"
+    "test": "vitest",
+    "monitor": "tsx bin/monitor.ts"
   },
   "keywords": [],
   "author": "Sebastián Alvarez <seba.alvarez16@gmail.com>",
