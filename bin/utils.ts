@@ -11,7 +11,10 @@ export const Prompt = (cpu: CPU) => {
   });
 
   const waitInput = async () => {
-    const l = `${padNumber<number>(cpu.PC, 4)} >`;
+    const regPCLine = padNumber<number>(cpu.PC, 4);
+    const regALine = padNumber<number>(cpu.A, 2);
+    const l = `${regPCLine} ${regALine} >`;
+
     await rl.question(l);
   };
 
