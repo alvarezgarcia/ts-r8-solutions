@@ -1,18 +1,19 @@
-import { CPU } from "./cpu.types";
+import { CPU, Register } from "./cpu.types";
 
 const MEM_SIZE = 65536;
 
 export const CreateCPU = (): CPU => {
   const memory = new Array(MEM_SIZE).fill(0);
+  const regs = new Uint8Array(Register.A + 1);
+
   let PC = 0;
-  let rA = 0;
 
   const step = () => {
     const opcode = memory[PC];
     PC++;
 
     if (opcode === 48) {
-      rA++;
+      regs[Register.A]++;
     }
   };
 
@@ -21,7 +22,10 @@ export const CreateCPU = (): CPU => {
       return PC;
     },
     get A() {
-      return rA;
+      return regs[Register.A];
+    },
+    set A(value: number) {
+      regs[Register.A] = value;
     },
     memory,
     step,
