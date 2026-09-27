@@ -256,6 +256,10 @@ it("disassemble function correctly disassembles code", () => {
         source: "ld a, 10",
       },
       {
+        code: new Uint8Array([OpCode.TRAP, 32]),
+        source: "trap 32"
+      },
+      {
         code: new Uint8Array([255]),
         source: "???",
       },

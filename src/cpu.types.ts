@@ -24,4 +24,5 @@ export enum OpCode {
   BRA = 240,
   BEQ = 241,
   JMP = 247,
+  TRAP = 249,
 };

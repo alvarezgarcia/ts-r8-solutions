@@ -76,6 +76,13 @@ export const CreateCPU = (): CPU => {
         const newAddress = (addressHigh << 8) | addressLow;
         regs16[Register16.PC] = newAddress;
         break;
+
+      case OpCode.TRAP:
+        const trapOperand = fetch();
+        if (trapOperand === 32) {
+          process.stdout.write(String.fromCharCode(regs8[Register8.A]));
+        }
+        break;
     }
 
     return true;
@@ -150,6 +157,9 @@ export const disassemble = (code: Uint8Array): [string, number] => {
 
     case OpCode.JMP:
       return [`jmp ${formatWord(code.subarray(1))}`, 3];
+
+    case OpCode.TRAP:
+      return [`trap ${formatByte(code.subarray(1))}`, 2];
 
     default:
       return ["???", 1];
