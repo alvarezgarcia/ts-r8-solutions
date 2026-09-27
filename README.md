@@ -15,18 +15,9 @@ $ npm i
 ## Tools
 
 ### Monitor
-
-#### Default
 ```
-$ npm run monitor
+$ npm run monitor ./output.bin
 ```
-
-#### Run a program directly from stdin
-```
-$ npm run monitor '16 07 48' # LD_A 07 \
-                             # INC_A
-```
-Single quotes are mandatory for now
 
 ### Makebin
 ```
