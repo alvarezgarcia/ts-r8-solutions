@@ -2,6 +2,7 @@ import {
   CPU,
   Register8,
   Register16,
+  OpCode,
 } from "./cpu.types";
 
 const MEM_SIZE = 65536;
@@ -16,14 +17,14 @@ export const CreateCPU = (): CPU => {
     regs16[Register16.PC]++;
 
     switch (opcode) {
-      case 0: // halt
+      case OpCode.HALT:
         return false;
 
-      case 48: // inc
+      case OpCode.INC_A:
         regs8[Register8.A]++;
         break;
 
-      case 64: // dec a
+      case OpCode.DEC_A:
         regs8[Register8.A]--;
         break;
     }
