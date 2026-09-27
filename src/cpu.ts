@@ -12,8 +12,14 @@ export const CreateCPU = (): CPU => {
     const opcode = memory[PC];
     PC++;
 
-    if (opcode === 48) { // inc a
-      regs[Register.A]++;
+    switch (opcode) {
+      case 48: // inc a
+        regs[Register.A]++;
+        break;
+
+      case 64: // dec a
+        regs[Register.A]--;
+        break;
     }
   };
 
