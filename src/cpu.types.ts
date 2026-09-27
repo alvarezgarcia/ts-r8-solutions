@@ -13,3 +13,9 @@ export enum Register8 {
 export enum Register16 {
   PC
 };
+
+export enum OpCode {
+  HALT = 0,
+  INC = 48,
+  DEC = 64,
+};
