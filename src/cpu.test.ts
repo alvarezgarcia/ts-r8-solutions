@@ -232,19 +232,27 @@ describe("CPU", () => {
   it("disassemble function correctly disassembles code", () => {
     const cases = [
       {
-        code:   OpCode.DEC_A,
+        code: new Uint8Array([OpCode.BEQ, 3]),
+        source: "beq 3",
+      },
+      {
+        code: new Uint8Array([OpCode.DEC_A]),
         source: "dec a",
       },
       {
-        code:   OpCode.HALT,
+        code: new Uint8Array([OpCode.HALT]),
         source: "halt",
       },
       {
-        code:   OpCode.INC_A,
+        code: new Uint8Array([OpCode.INC_A]),
         source: "inc a",
       },
       {
-        code:   255,
+        code: new Uint8Array([OpCode.LD_A, 10]),
+        source: "ld a, 10",
+      },
+      {
+        code: new Uint8Array([255]),
         source: "???",
       },
     ];

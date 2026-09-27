@@ -111,14 +111,31 @@ export const CreateCPU = (): CPU => {
   };
 };
 
-export const disassemble = (code: number): string => {
-  switch (code) {
-    case OpCode.DEC_A:
-      return "dec a"
+const formatByte = (code: Uint8Array): string => {
+  if (code.length < 1) {
+    return "???"
+  }
+
+  return code[0].toString();
+};
+
+export const disassemble = (code: Uint8Array): string => {
+  switch (code[0]) {
     case OpCode.HALT:
-      return "halt"
+      return "halt";
+
+    case OpCode.LD_A:
+      return `ld a, ${formatByte(code.subarray(1))}`;
+
     case OpCode.INC_A:
-      return "inc a"
+      return "inc a";
+
+    case OpCode.DEC_A:
+      return "dec a";
+
+    case OpCode.BEQ:
+      return `beq ${formatByte(code.subarray(1))}`;
+
     default:
       return "???"
   }
