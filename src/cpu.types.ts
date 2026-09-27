@@ -1,7 +1,7 @@
 export interface CPU {
   PC: number;
   A: number;
-  memory: number[];
+  memory: Uint8Array;
   step(): void;
 };
 

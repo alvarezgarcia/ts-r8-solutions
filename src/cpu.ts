@@ -7,7 +7,7 @@ import {
 const MEM_SIZE = 65536;
 
 export const CreateCPU = (): CPU => {
-  const memory = new Array(MEM_SIZE).fill(0);
+  const memory = new Uint8Array(MEM_SIZE);
   const regs8 = new Uint8Array(Register8.A + 1);
   const regs16 = new Uint16Array(Register16.PC + 1);
 
