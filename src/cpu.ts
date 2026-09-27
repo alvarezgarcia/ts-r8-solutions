@@ -49,6 +49,11 @@ export const CreateCPU = (): CPU => {
         regs8[Register8.A] += addOperand;
         break;
 
+      case OpCode.BRA:
+        const displacement = fetch();
+        regs16[Register16.PC] += displacement;
+        break;
+
       case OpCode.JMP:
         const addressLow = fetch();
         const addressHigh = fetch();
