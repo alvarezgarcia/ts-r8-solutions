@@ -3,6 +3,7 @@ export interface CPU {
   A: number;
   memory: Uint8Array;
   step(): void;
+  run(): void;
 };
 
 export enum Register8 {
