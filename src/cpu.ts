@@ -58,6 +58,11 @@ export const CreateCPU = (): CPU => {
         updateZero(regs8[Register8.A]);
         break;
 
+      case OpCode.CMP_A:
+        const cmpOperand = fetch();
+        zero = regs8[Register8.A] === cmpOperand;
+        break;
+
       case OpCode.BRA:
         const braDisplacement = fetch();
         regs16[Register16.PC] += braDisplacement;
@@ -151,6 +156,9 @@ export const disassemble = (code: Uint8Array): [string, number] => {
 
     case OpCode.DEC_A:
       return ["dec a", 1];
+
+    case OpCode.CMP_A:
+      return [`cmp a, ${formatByte(code.subarray(1))}`, 2];
 
     case OpCode.BEQ:
       return [`beq ${formatByte(code.subarray(1))}`, 2];

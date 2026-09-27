@@ -229,7 +229,35 @@ describe("CPU", () => {
     expect(cpu.PC).toBe(5);
   });
 
-it("disassemble function correctly disassembles code", () => {
+  it("cmp sets zero flag if operand is equal", () => {
+    const cpu = CreateCPU();
+
+    const program = new Uint8Array([
+      OpCode.LD_A, 1,
+      OpCode.CMP_A, 1,
+      OpCode.HALT,
+    ]);
+
+    cpu.runProgram(program);
+
+    expect(cpu.zero).toBe(true);
+  });
+
+  it("cmp clears zero flag if operand is not equal", () => {
+    const cpu = CreateCPU();
+
+    const program = new Uint8Array([
+      OpCode.LD_A, 0,
+      OpCode.CMP_A, 1,
+      OpCode.HALT,
+    ]);
+
+    cpu.runProgram(program);
+
+    expect(cpu.zero).toBe(false);
+  });
+
+  it("disassemble function correctly disassembles code", () => {
     const cases = [
       {
         code: new Uint8Array([OpCode.BEQ, 3]),
