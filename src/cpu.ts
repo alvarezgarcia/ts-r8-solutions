@@ -59,8 +59,15 @@ export const CreateCPU = (): CPU => {
         break;
 
       case OpCode.BRA:
-        const displacement = fetch();
-        regs16[Register16.PC] += displacement;
+        const braDisplacement = fetch();
+        regs16[Register16.PC] += braDisplacement;
+        break;
+
+      case OpCode.BEQ:
+        const beqDisplacement = fetch();
+        if (zero) {
+          regs16[Register16.PC] += beqDisplacement;
+        }
         break;
 
       case OpCode.JMP:

@@ -22,5 +22,6 @@ export enum OpCode {
   DEC_A = 64,
   ADD_A = 80,
   BRA = 240,
+  BEQ = 241,
   JMP = 247,
 };
