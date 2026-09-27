@@ -16,6 +16,9 @@ export const CreateCPU = (): CPU => {
     regs16[Register16.PC]++;
 
     switch (opcode) {
+      case 0: // halt
+        return false;
+
       case 48: // inc
         regs8[Register8.A]++;
         break;
@@ -23,6 +26,13 @@ export const CreateCPU = (): CPU => {
       case 64: // dec
         regs8[Register8.A]--;
         break;
+    }
+
+    return true;
+  };
+
+  const run = () => {
+    while (step()) {
     }
   };
 
@@ -41,5 +51,6 @@ export const CreateCPU = (): CPU => {
     },
     memory,
     step,
+    run
   };
 };
