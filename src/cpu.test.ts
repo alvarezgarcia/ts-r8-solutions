@@ -248,6 +248,10 @@ describe("CPU", () => {
         source: "inc a",
       },
       {
+        code: new Uint8Array([OpCode.JMP, 2, 0]),
+        source: "jmp 2",
+      },
+      {
         code: new Uint8Array([OpCode.LD_A, 10]),
         source: "ld a, 10",
       },

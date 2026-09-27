@@ -119,6 +119,18 @@ const formatByte = (code: Uint8Array): string => {
   return code[0].toString();
 };
 
+const formatWord = (code: Uint8Array): string => {
+  if (code.length < 2) {
+    return "???"
+  }
+
+  const addressLow = code[0];
+  const addressHigh = code[1];
+  const newAddress = (addressHigh << 8) | addressLow;
+
+  return newAddress.toString();
+};
+
 export const disassemble = (code: Uint8Array): string => {
   switch (code[0]) {
     case OpCode.HALT:
@@ -135,6 +147,9 @@ export const disassemble = (code: Uint8Array): string => {
 
     case OpCode.BEQ:
       return `beq ${formatByte(code.subarray(1))}`;
+
+    case OpCode.JMP:
+      return `jmp ${formatWord(code.subarray(1))}`;
 
     default:
       return "???"
