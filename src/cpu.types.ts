@@ -19,4 +19,5 @@ export enum OpCode {
   LD_A = 16,
   INC_A = 48,
   DEC_A = 64,
+  ADD_A = 80,
 };

@@ -100,4 +100,28 @@ describe("CPU", () => {
     expect(cpu.A).toBe(5);
     expect(cpu.PC).toBe(2);
   });
+
+  it("loads accumulator", () => {
+    const cpu = CreateCPU();
+
+    cpu.A = 10;
+    cpu.memory[0] = OpCode.LD_A;
+    cpu.memory[1] = 5;
+
+    cpu.step();
+    expect(cpu.A).toBe(5);
+    expect(cpu.PC).toBe(2);
+  });
+
+  it("add adds to accumulator", () => {
+    const cpu = CreateCPU();
+
+    cpu.A = 1;
+    cpu.memory[0] = OpCode.ADD_A;
+    cpu.memory[1] = 2;
+
+    cpu.step();
+    expect(cpu.A).toBe(3);
+    expect(cpu.PC).toBe(2);
+  });
 });
