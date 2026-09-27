@@ -24,6 +24,7 @@ describe("CPU", () => {
 
   it("inc increments A register", () => {
     const cpu = CreateCPU();
+    cpu.zero = true;
 
     const program = new Uint8Array([
       OpCode.INC_A,
@@ -31,48 +32,70 @@ describe("CPU", () => {
     ]);
 
     cpu.runProgram(program);
+
     expect(cpu.A).toBe(1);
+    expect(cpu.zero).toBe(false);
   });
 
   it("inc wraps A register from 255 to 0", () => {
     const cpu = CreateCPU();
+    cpu.A = 255;
 
     const program = new Uint8Array([
       OpCode.INC_A,
       OpCode.HALT,
     ]);
 
-    cpu.A = 255;
     cpu.runProgram(program);
+
     expect(cpu.A).toBe(0);
+    expect(cpu.zero).toBe(true);
   });
 
-  it("dec wraps A register from 0 to 255", () => {
+  it("dec decrements A register", () => {
     const cpu = CreateCPU();
+    cpu.A = 1;
 
     const program = new Uint8Array([
       OpCode.DEC_A,
       OpCode.HALT,
     ]);
 
-    cpu.A = 0;
     cpu.runProgram(program);
+
+    expect(cpu.A).toBe(0);
+    expect(cpu.zero).toBe(true);
+  });
+
+  it("dec wraps A register from 0 to 255", () => {
+    const cpu = CreateCPU();
+    cpu.A = 0;
+    cpu.zero = true;
+
+    const program = new Uint8Array([
+      OpCode.DEC_A,
+      OpCode.HALT,
+    ]);
+
+    cpu.runProgram(program);
+
     expect(cpu.A).toBe(255);
+    expect(cpu.zero).toBe(false);
   });
 
   it("step wraps PC register from 65535 to 0", () => {
     const cpu = CreateCPU()
-
     cpu.PC = 65535;
 
     cpu.step();
+
     expect(cpu.PC).toBe(0);
   });
 
   it("memory is bytes", () => {
     const cpu = CreateCPU();
-
     cpu.memory[0] = 256; // We exceed the max value of a 1 byte unsigned integer (255) so we have again 0
+
     expect(cpu.memory[0]).toBe(0);
   });
 
@@ -90,30 +113,63 @@ describe("CPU", () => {
 
   it("loads accumulator", () => {
     const cpu = CreateCPU();
-
     cpu.A = 10;
+    cpu.zero = true;
+
     const program = new Uint8Array([
       OpCode.LD_A, 5,
       OpCode.HALT,
     ]);
 
     cpu.runProgram(program);
+
     expect(cpu.A).toBe(5);
     expect(cpu.PC).toBe(3);
+    expect(cpu.zero).toBe(false);
+  });
+
+  it("ld sets zero flag", () => {
+    const cpu = CreateCPU();
+
+    const program = new Uint8Array([
+      OpCode.LD_A, 0,
+      OpCode.HALT
+    ]);
+
+    cpu.runProgram(program);
+
+    expect(cpu.zero).toBe(true);
   });
 
   it("add adds to accumulator", () => {
     const cpu = CreateCPU();
+    cpu.A = 1;
+    cpu.zero = true;
 
     const program = new Uint8Array([
       OpCode.ADD_A, 2,
       OpCode.HALT
     ]);
-    cpu.A = 1;
 
     cpu.runProgram(program);
+
     expect(cpu.A).toBe(3);
     expect(cpu.PC).toBe(3);
+    expect(cpu.zero).toBe(false);
+  });
+
+  it("add sets zero flag", () => {
+    const cpu = CreateCPU();
+    cpu.A = 1;
+
+    const program = new Uint8Array([
+      OpCode.ADD_A, 255,
+      OpCode.HALT
+    ]);
+
+    cpu.runProgram(program);
+
+    expect(cpu.zero).toBe(true);
   });
 
   it("jmp jumps to specified address", () => {
@@ -127,6 +183,7 @@ describe("CPU", () => {
     ]);
 
     cpu.runProgram(program);
+
     expect(cpu.A).toBe(0);
     expect(cpu.PC).toBe(6);
   });
