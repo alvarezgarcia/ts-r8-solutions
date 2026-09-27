@@ -1,4 +1,4 @@
-import { CreateCPU } from "../src";
+import { CreateCPU, disassemble } from "../src";
 import { Prompt } from "./utils";
 
 const handleProgramArg = (arg: string): Uint8Array => {
@@ -26,11 +26,13 @@ const main = async () => {
     cpu.memory.set(program);
   }
 
-  console.log('  PC  A');
   const pr = Prompt(cpu);
 
   while (true) {
-    await pr.waitInput();
+    const code = cpu.memory[cpu.PC];
+    const asm = disassemble(code);
+    console.log('  PC  A | NEXT');
+    await pr.waitInput(asm);
     cpu.step();
   }
 };
