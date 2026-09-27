@@ -64,4 +64,14 @@ describe("CPU", () => {
     cpu.memory[0] = 256; // We exceed the max value of a 1 byte unsigned integer (255) so we have again 0
     expect(cpu.memory[0]).toBe(0);
   });
+
+  it("runs until halted", () => {
+    const cpu = CreateCPU();
+
+    cpu.memory[0] = 48;
+    cpu.memory[1] = 0;
+
+    cpu.run();
+    expect(cpu.PC).toBe(2);
+  });
 });
