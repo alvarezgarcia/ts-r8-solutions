@@ -114,4 +114,19 @@ describe("CPU", () => {
     expect(cpu.A).toBe(3);
     expect(cpu.PC).toBe(3);
   });
+
+  it("jmp jumps to specified address", () => {
+    const cpu = CreateCPU();
+
+    const program = new Uint8Array([
+      OpCode.JMP, 5, 0,
+      OpCode.INC_A,
+      OpCode.HALT,
+      OpCode.HALT
+    ]);
+
+    cpu.runProgram(program);
+    expect(cpu.A).toBe(0);
+    expect(cpu.PC).toBe(6);
+  });
 });
