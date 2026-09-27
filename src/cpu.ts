@@ -107,6 +107,19 @@ export const CreateCPU = (): CPU => {
     },
     memory,
     step,
-    runProgram
+    runProgram,
   };
+};
+
+export const disassemble = (code: number): string => {
+  switch (code) {
+    case OpCode.DEC_A:
+      return "dec a"
+    case OpCode.HALT:
+      return "halt"
+    case OpCode.INC_A:
+      return "inc a"
+    default:
+      return "???"
+  }
 };

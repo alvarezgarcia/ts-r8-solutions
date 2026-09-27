@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { CreateCPU } from "./cpu";
+import { CreateCPU, disassemble } from "./cpu";
 import { OpCode } from "./cpu.types";
 
 describe("CPU", () => {
@@ -227,5 +227,31 @@ describe("CPU", () => {
     cpu.runProgram(program);
 
     expect(cpu.PC).toBe(5);
+  });
+
+  it("disassemble function correctly disassembles code", () => {
+    const cases = [
+      {
+        code:   OpCode.DEC_A,
+        source: "dec a",
+      },
+      {
+        code:   OpCode.HALT,
+        source: "halt",
+      },
+      {
+        code:   OpCode.INC_A,
+        source: "inc a",
+      },
+      {
+        code:   255,
+        source: "???",
+      },
+    ];
+
+    for (const c of cases) {
+      const source = disassemble(c.code);
+      expect(source).toBe(c.source);
+    }
   });
 });
