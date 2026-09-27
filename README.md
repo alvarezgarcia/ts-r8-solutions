@@ -13,6 +13,15 @@ $ npm i
 ```
 
 ## Monitor
+
+### Run a program directly from stdin
+```
+$ npm run monitor '16 07 48' # LD_A 07 \
+                             # INC_A
+```
+Single quotes are mandatory for now
+
+### Default
 ```
 $ npm run monitor
 ```
