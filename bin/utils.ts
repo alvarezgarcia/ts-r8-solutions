@@ -10,12 +10,13 @@ export const Prompt = (cpu: CPU) => {
     output: process.stdout,
   });
 
-  const waitInput = async (asm: string) => {
+  const waitInput = async (asm: string): Promise<string> => {
     const regPCLine = padNumber<number>(cpu.PC, 4);
     const regALine = padNumber<number>(cpu.A, 2);
-    const l = `${regPCLine} ${regALine} | ${asm}\n>`;
+    const l = `${regPCLine} ${regALine} | ${asm}\n> `;
 
-    await rl.question(l);
+    const input = await rl.question(l);
+    return input;
   };
 
   return {

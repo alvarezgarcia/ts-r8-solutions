@@ -14,8 +14,10 @@ const main = async () => {
 
   try {
     const program: Uint8Array = readFileSync(filePathArg);
+
     const cpu = CreateCPU();
     cpu.memory.set(program);
+    cpu.PC = 0;
 
     const pr = Prompt(cpu);
 
@@ -23,8 +25,12 @@ const main = async () => {
       const code = cpu.memory.subarray(cpu.PC, cpu.PC + 3);
       const [asm] = disassemble(code);
       console.log('  PC  A | NEXT');
-      await pr.waitInput(asm);
-      cpu.step();
+      const input = await pr.waitInput(asm);
+      if (input === 'g') {
+        cpu.run();
+      } else {
+        cpu.step();
+      }
     }
   } catch (err) {
     return die(err.message);

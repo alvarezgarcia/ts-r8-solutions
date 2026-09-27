@@ -5,6 +5,7 @@ export interface CPU {
   zero: boolean;
   runProgram(program: Uint8Array): void;
   step(): boolean;
+  run(): void;
 };
 
 export enum Register8 {

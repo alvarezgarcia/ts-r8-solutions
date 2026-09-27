@@ -120,6 +120,7 @@ export const CreateCPU = (): CPU => {
     memory,
     step,
     runProgram,
+    run
   };
 };
 
