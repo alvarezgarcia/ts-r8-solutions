@@ -48,4 +48,13 @@ describe("CPU", () => {
     cpu.step();
     expect(cpu.A).toBe(255);
   });
+
+  it("step wraps PC register from 65535 to 0", () => {
+    const cpu = CreateCPU()
+
+    cpu.PC = 65535;
+
+    cpu.step();
+    expect(cpu.PC).toBe(0);
+  });
 });
