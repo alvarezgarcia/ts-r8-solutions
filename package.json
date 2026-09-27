@@ -5,7 +5,8 @@
   "scripts": {
     "test": "vitest",
     "monitor": "tsx bin/monitor.ts",
-    "makebin": "tsx bin/makebin.ts"
+    "makebin": "tsx bin/makebin.ts",
+    "disasm": "tsx bin/disasm.ts"
   },
   "keywords": [],
   "author": "Sebastián Alvarez <seba.alvarez16@gmail.com>",

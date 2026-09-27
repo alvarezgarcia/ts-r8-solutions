@@ -229,7 +229,7 @@ describe("CPU", () => {
     expect(cpu.PC).toBe(5);
   });
 
-  it("disassemble function correctly disassembles code", () => {
+it("disassemble function correctly disassembles code", () => {
     const cases = [
       {
         code: new Uint8Array([OpCode.BEQ, 3]),
@@ -262,8 +262,10 @@ describe("CPU", () => {
     ];
 
     for (const c of cases) {
-      const source = disassemble(c.code);
+      const [source, bytes] = disassemble(c.code);
+
       expect(source).toBe(c.source);
+      expect(bytes).toBe(c.code.length);
     }
   });
 });

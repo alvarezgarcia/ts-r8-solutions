@@ -35,7 +35,13 @@ $ npm run makebin ./output.bin '16 07 48' # LD_A 07 \
 ```
 Single quotes are mandatory for now
 
+### Disasm
+```
+$ npm run disasm ./output.bin
+```
+
 ## Test
 ```
 $ npm test
 ```
+

@@ -131,27 +131,27 @@ const formatWord = (code: Uint8Array): string => {
   return newAddress.toString();
 };
 
-export const disassemble = (code: Uint8Array): string => {
+export const disassemble = (code: Uint8Array): [string, number] => {
   switch (code[0]) {
     case OpCode.HALT:
-      return "halt";
+      return ["halt", 1];
 
     case OpCode.LD_A:
-      return `ld a, ${formatByte(code.subarray(1))}`;
+      return [`ld a, ${formatByte(code.subarray(1))}`, 2];
 
     case OpCode.INC_A:
-      return "inc a";
+      return ["inc a", 1];
 
     case OpCode.DEC_A:
-      return "dec a";
+      return ["dec a", 1];
 
     case OpCode.BEQ:
-      return `beq ${formatByte(code.subarray(1))}`;
+      return [`beq ${formatByte(code.subarray(1))}`, 2];
 
     case OpCode.JMP:
-      return `jmp ${formatWord(code.subarray(1))}`;
+      return [`jmp ${formatWord(code.subarray(1))}`, 3];
 
     default:
-      return "???"
+      return ["???", 1];
   }
 };

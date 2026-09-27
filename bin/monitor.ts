@@ -14,7 +14,7 @@ const main = async () => {
 
   while (true) {
     const code = cpu.memory.subarray(cpu.PC, cpu.PC + 3);
-    const asm = disassemble(code);
+    const [asm] = disassemble(code);
     console.log('  PC  A | NEXT');
     await pr.waitInput(asm);
     cpu.step();

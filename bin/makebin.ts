@@ -19,7 +19,7 @@ const main = () => {
 
   try {
     writeFileSync(filePathArg, Buffer.from(program));
-  } catch(err) {
+  } catch (err) {
     return die(err.message);
   }
 };
