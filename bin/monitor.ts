@@ -1,21 +1,5 @@
 import { CreateCPU, disassemble } from "../src";
-import { Prompt } from "./utils";
-
-const handleProgramArg = (arg: string): Uint8Array => {
-  let bytes: number[] = [];
-
-  const parts = arg.split(' ');
-  for (let p = 0; p < parts.length; p++) {
-    const clean = parts[p].trim();
-    if (clean.length === 0) {
-      continue;
-    }
-
-    bytes.push(parseInt(clean, 10));
-  }
-
-  return new Uint8Array(bytes);
-};
+import { Prompt, handleProgramArg } from "./utils";
 
 const main = async () => {
   const programArg = process.argv[2];

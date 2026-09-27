@@ -12,19 +12,28 @@ With at least node `20.19+` version install the dependencies:
 $ npm i
 ```
 
-## Monitor
+## Tools
 
-### Run a program directly from stdin
+### Monitor
+
+#### Default
+```
+$ npm run monitor
+```
+
+#### Run a program directly from stdin
 ```
 $ npm run monitor '16 07 48' # LD_A 07 \
                              # INC_A
 ```
 Single quotes are mandatory for now
 
-### Default
+### Makebin
 ```
-$ npm run monitor
+$ npm run makebin ./output.bin '16 07 48' # LD_A 07 \
+                                          # INC_A
 ```
+Single quotes are mandatory for now
 
 ## Test
 ```

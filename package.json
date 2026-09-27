@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "vitest",
-    "monitor": "tsx bin/monitor.ts"
+    "monitor": "tsx bin/monitor.ts",
+    "makebin": "tsx bin/makebin.ts"
   },
   "keywords": [],
   "author": "Sebastián Alvarez <seba.alvarez16@gmail.com>",

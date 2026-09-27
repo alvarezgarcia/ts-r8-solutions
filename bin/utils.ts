@@ -22,3 +22,24 @@ export const Prompt = (cpu: CPU) => {
     waitInput
   };
 };
+
+export const handleProgramArg = (arg: string): Uint8Array => {
+  let bytes: number[] = [];
+
+  const parts = arg.split(' ');
+  for (let p = 0; p < parts.length; p++) {
+    const clean = parts[p].trim();
+    if (clean.length === 0) {
+      continue;
+    }
+
+    bytes.push(parseInt(clean, 10));
+  }
+
+  return new Uint8Array(bytes);
+};
+
+export const die = (msg: string) => {
+  console.error(msg);
+  process.exit(1);
+};
