@@ -2,6 +2,7 @@ export interface CPU {
   PC: number;
   A: number;
   memory: Uint8Array;
+  zero: boolean;
   runProgram(program: Uint8Array): void;
   step(): boolean;
 };

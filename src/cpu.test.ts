@@ -8,6 +8,7 @@ describe("CPU", () => {
 
     expect(cpu.PC).toBe(0);
     expect(cpu.A).toBe(0);
+    expect(cpu.zero).toBe(false);
     expect(cpu.memory[0]).toBe(0);
   });
 
