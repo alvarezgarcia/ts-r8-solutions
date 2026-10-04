@@ -16,6 +16,7 @@ export enum Register16 {
 
 export enum OpCode {
   HALT = 0,
+  LD = 16,
   INC = 48,
   DEC = 64,
 };

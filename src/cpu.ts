@@ -20,6 +20,12 @@ export const CreateCPU = (): CPU => {
       case OpCode.HALT:
         return false;
 
+      case OpCode.LD:
+        const operand = memory[regs16[Register16.PC]];
+        regs16[Register16.PC]++;
+        regs8[Register8.A] += operand;
+        break;
+
       case OpCode.INC:
         regs8[Register8.A]++;
         break;
