@@ -2,8 +2,8 @@ export interface CPU {
   PC: number;
   A: number;
   memory: Uint8Array;
+  runProgram(program: Uint8Array): void;
   step(): boolean;
-  run(): void;
 };
 
 export enum Register8 {
