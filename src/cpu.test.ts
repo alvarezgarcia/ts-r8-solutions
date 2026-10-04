@@ -75,4 +75,16 @@ describe("CPU", () => {
     cpu.run();
     expect(cpu.PC).toBe(2);
   });
+
+  it("loads accumulator", () => {
+    const cpu = CreateCPU();
+
+    cpu.A = 10;
+    cpu.memory[0] = OpCode.LD;
+    cpu.memory[1] = 5;
+
+    cpu.step();
+    expect(cpu.A).toBe(5);
+    expect(cpu.PC).toBe(2);
+  });
 });
