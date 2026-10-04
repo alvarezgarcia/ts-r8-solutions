@@ -24,29 +24,38 @@ describe("CPU", () => {
   it("inc increments A register", () => {
     const cpu = CreateCPU();
 
-    cpu.memory[0] = OpCode.INC;
+    const program = new Uint8Array([
+      OpCode.INC,
+      OpCode.HALT,
+    ]);
 
-    cpu.step();
+    cpu.runProgram(program);
     expect(cpu.A).toBe(1);
   });
 
   it("inc wraps A register from 255 to 0", () => {
     const cpu = CreateCPU();
 
-    cpu.memory[0] = OpCode.INC;
-    cpu.A = 255;
+    const program = new Uint8Array([
+      OpCode.INC,
+      OpCode.HALT,
+    ]);
 
-    cpu.step();
+    cpu.A = 255;
+    cpu.runProgram(program);
     expect(cpu.A).toBe(0);
   });
 
   it("dec wraps A register from 0 to 255", () => {
     const cpu = CreateCPU();
 
-    cpu.memory[0] = OpCode.DEC;
-    cpu.A = 0;
+    const program = new Uint8Array([
+      OpCode.DEC,
+      OpCode.HALT,
+    ]);
 
-    cpu.step();
+    cpu.A = 0;
+    cpu.runProgram(program);
     expect(cpu.A).toBe(255);
   });
 
@@ -69,33 +78,39 @@ describe("CPU", () => {
   it("runs until halted", () => {
     const cpu = CreateCPU();
 
-    cpu.memory[0] = OpCode.INC;
-    cpu.memory[1] = OpCode.HALT;
+    const program = new Uint8Array([
+      OpCode.INC,
+      OpCode.HALT,
+    ]);
 
-    cpu.run();
+    cpu.runProgram(program);
     expect(cpu.PC).toBe(2);
   });
 
   it("loads accumulator", () => {
     const cpu = CreateCPU();
 
-    cpu.memory[0] = OpCode.LD;
-    cpu.memory[1] = 5;
+    const program = new Uint8Array([
+      OpCode.LD, 5,
+      OpCode.HALT,
+    ]);
 
-    cpu.step();
+    cpu.runProgram(program);
     expect(cpu.A).toBe(5);
-    expect(cpu.PC).toBe(2);
+    expect(cpu.PC).toBe(3);
   });
 
   it("add adds to accumulator", () => {
     const cpu = CreateCPU();
 
+    const program = new Uint8Array([
+      OpCode.ADD, 2,
+      OpCode.HALT
+    ]);
     cpu.A = 1;
-    cpu.memory[0] = OpCode.ADD;
-    cpu.memory[1] = 2;
 
-    cpu.step();
+    cpu.runProgram(program);
     expect(cpu.A).toBe(3);
-    expect(cpu.PC).toBe(2);
+    expect(cpu.PC).toBe(3);
   });
 });
