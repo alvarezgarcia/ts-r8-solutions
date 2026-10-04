@@ -24,29 +24,38 @@ describe("CPU", () => {
   it("inc increments A register", () => {
     const cpu = CreateCPU();
 
-    cpu.memory[0] = OpCode.INC_A;
+    const program = new Uint8Array([
+      OpCode.INC_A,
+      OpCode.HALT,
+    ]);
 
-    cpu.step();
+    cpu.runProgram(program);
     expect(cpu.A).toBe(1);
   });
 
   it("inc wraps A register from 255 to 0", () => {
     const cpu = CreateCPU();
 
-    cpu.memory[0] = OpCode.INC_A;
-    cpu.A = 255;
+    const program = new Uint8Array([
+      OpCode.INC_A,
+      OpCode.HALT,
+    ]);
 
-    cpu.step();
+    cpu.A = 255;
+    cpu.runProgram(program);
     expect(cpu.A).toBe(0);
   });
 
   it("dec wraps A register from 0 to 255", () => {
     const cpu = CreateCPU();
 
-    cpu.memory[0] = OpCode.DEC_A;
-    cpu.A = 0;
+    const program = new Uint8Array([
+      OpCode.DEC_A,
+      OpCode.HALT,
+    ]);
 
-    cpu.step();
+    cpu.A = 0;
+    cpu.runProgram(program);
     expect(cpu.A).toBe(255);
   });
 
@@ -69,10 +78,12 @@ describe("CPU", () => {
   it("runs until halted", () => {
     const cpu = CreateCPU();
 
-    cpu.memory[0] = OpCode.INC_A;
-    cpu.memory[1] = OpCode.HALT;
+    const program = new Uint8Array([
+      OpCode.INC_A,
+      OpCode.HALT,
+    ]);
 
-    cpu.run();
+    cpu.runProgram(program);
     expect(cpu.PC).toBe(2);
   });
 
@@ -80,23 +91,27 @@ describe("CPU", () => {
     const cpu = CreateCPU();
 
     cpu.A = 10;
-    cpu.memory[0] = OpCode.LD_A;
-    cpu.memory[1] = 5;
+    const program = new Uint8Array([
+      OpCode.LD_A, 5,
+      OpCode.HALT,
+    ]);
 
-    cpu.step();
+    cpu.runProgram(program);
     expect(cpu.A).toBe(5);
-    expect(cpu.PC).toBe(2);
+    expect(cpu.PC).toBe(3);
   });
 
   it("add adds to accumulator", () => {
     const cpu = CreateCPU();
 
+    const program = new Uint8Array([
+      OpCode.ADD_A, 2,
+      OpCode.HALT
+    ]);
     cpu.A = 1;
-    cpu.memory[0] = OpCode.ADD_A;
-    cpu.memory[1] = 2;
 
-    cpu.step();
+    cpu.runProgram(program);
     expect(cpu.A).toBe(3);
-    expect(cpu.PC).toBe(2);
+    expect(cpu.PC).toBe(3);
   });
 });

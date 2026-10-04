@@ -12,6 +12,12 @@ export const CreateCPU = (): CPU => {
   const regs8 = new Uint8Array(Register8.A + 1);
   const regs16 = new Uint16Array(Register16.PC + 1);
 
+  const runProgram = (program: Uint8Array) => {
+    memory.set(program);
+    regs16[Register16.PC] = 0;
+    run();
+  };
+
   const fetch = () => {
     const value = memory[regs16[Register16.PC]];
     regs16[Register16.PC]++;
@@ -67,6 +73,6 @@ export const CreateCPU = (): CPU => {
     },
     memory,
     step,
-    run
+    runProgram
   };
 };
