@@ -26,8 +26,8 @@ export const CreateCPU = (): CPU => {
         return false;
 
       case OpCode.LD:
-        const operand = fetch();
-        regs8[Register8.A] += operand;
+        const ldOperand = fetch();
+        regs8[Register8.A] += ldOperand;
         break;
 
       case OpCode.INC:
@@ -36,6 +36,11 @@ export const CreateCPU = (): CPU => {
 
       case OpCode.DEC:
         regs8[Register8.A]--;
+        break;
+
+      case OpCode.ADD:
+        const addOperand = fetch();
+        regs8[Register8.A] += addOperand;
         break;
     }
 
