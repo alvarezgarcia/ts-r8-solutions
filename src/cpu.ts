@@ -12,17 +12,21 @@ export const CreateCPU = (): CPU => {
   const regs8 = new Uint8Array(Register8.A + 1);
   const regs16 = new Uint16Array(Register16.PC + 1);
 
-  const step = () => {
-    const opcode = memory[regs16[Register16.PC]];
+  const fetch = () => {
+    const value = memory[regs16[Register16.PC]];
     regs16[Register16.PC]++;
+    return value;
+  };
+
+  const step = () => {
+    const opcode = fetch();
 
     switch (opcode) {
       case OpCode.HALT:
         return false;
 
       case OpCode.LD:
-        const operand = memory[regs16[Register16.PC]];
-        regs16[Register16.PC]++;
+        const operand = fetch();
         regs8[Register8.A] = operand;
         break;
 
