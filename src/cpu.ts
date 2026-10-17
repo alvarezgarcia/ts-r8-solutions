@@ -48,6 +48,13 @@ export const CreateCPU = (): CPU => {
         const addOperand = fetch();
         regs8[Register8.A] += addOperand;
         break;
+
+      case OpCode.JMP:
+        const addressLow = fetch();
+        const addressHigh = fetch();
+        const newAddress = (addressHigh << 8) | addressLow;
+        regs16[Register16.PC] = newAddress;
+        break;
     }
 
     return true;
