@@ -133,7 +133,7 @@ describe("CPU", () => {
 
     const program = new Uint8Array([
       OpCode.LD_A, 0,
-      OpCode.HALT
+      OpCode.HALT,
     ]);
 
     cpu.runProgram(program);
@@ -148,7 +148,7 @@ describe("CPU", () => {
 
     const program = new Uint8Array([
       OpCode.ADD_A, 2,
-      OpCode.HALT
+      OpCode.HALT,
     ]);
 
     cpu.runProgram(program);
@@ -164,7 +164,7 @@ describe("CPU", () => {
 
     const program = new Uint8Array([
       OpCode.ADD_A, 255,
-      OpCode.HALT
+      OpCode.HALT,
     ]);
 
     cpu.runProgram(program);
@@ -179,7 +179,7 @@ describe("CPU", () => {
       OpCode.JMP, 5, 0,
       OpCode.INC_A,
       OpCode.HALT,
-      OpCode.HALT
+      OpCode.HALT,
     ]);
 
     cpu.runProgram(program);
@@ -199,5 +199,22 @@ describe("CPU", () => {
     cpu.runProgram(program);
 
     expect(cpu.PC).toBe(4);
+  });
+
+  it("beq branches if zero", () => {
+    const cpu = CreateCPU();
+
+    const program = new Uint8Array([
+      OpCode.LD_A, 10,
+      OpCode.DEC_A,
+      OpCode.BEQ, 3,
+      OpCode.JMP, 2, 0,
+      OpCode.HALT,
+    ]);
+
+    cpu.runProgram(program);
+
+    expect(cpu.A).toBe(0);
+    expect(cpu.PC).toBe(9);
   });
 });
