@@ -187,4 +187,17 @@ describe("CPU", () => {
     expect(cpu.A).toBe(0);
     expect(cpu.PC).toBe(6);
   });
+
+  it("bra always branches", () => {
+    const cpu = CreateCPU();
+
+    const program = new Uint8Array([
+      OpCode.BRA, 1,
+      OpCode.HALT,
+    ]);
+
+    cpu.runProgram(program);
+
+    expect(cpu.PC).toBe(4);
+  });
 });
