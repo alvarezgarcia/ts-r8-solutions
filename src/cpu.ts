@@ -25,6 +25,10 @@ export const CreateCPU = (): CPU => {
     return value;
   };
 
+  const updateZero = (value: number) => {
+    zero = value === 0;
+  };
+
   const step = () => {
     const opcode = fetch();
 
@@ -35,19 +39,23 @@ export const CreateCPU = (): CPU => {
       case OpCode.LD_A:
         const operand = fetch();
         regs8[Register8.A] = operand;
+        updateZero(regs8[Register8.A]);
         break;
 
       case OpCode.INC_A:
         regs8[Register8.A]++;
+        updateZero(regs8[Register8.A]);
         break;
 
       case OpCode.DEC_A:
         regs8[Register8.A]--;
+        updateZero(regs8[Register8.A]);
         break;
 
       case OpCode.ADD_A:
         const addOperand = fetch();
         regs8[Register8.A] += addOperand;
+        updateZero(regs8[Register8.A]);
         break;
 
       case OpCode.JMP:
