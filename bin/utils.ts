@@ -1,8 +1,6 @@
 import readline from "node:readline/promises";
-import { type CPU } from "../src";
 
-const padNumber = <T>(line: T, offset: number, value = '0') =>
-  String(line).padStart(offset, value);
+import { padNumber, type CPU } from "../src";
 
 export const Prompt = (cpu: CPU) => {
   const rl = readline.createInterface({
@@ -10,17 +8,10 @@ export const Prompt = (cpu: CPU) => {
     output: process.stdout,
   });
 
-<<<<<<< HEAD
   const waitInput = async (asm: string): Promise<string> => {
-    const regPCLine = padNumber<number>(cpu.PC, 4);
-    const regALine = padNumber<number>(cpu.A, 2);
+    const regPCLine = padNumber(cpu.PC, 4);
+    const regALine = padNumber(cpu.A, 2);
     const l = `${regPCLine} ${regALine} | ${asm}\n> `;
-=======
-  const waitInput = async (asm: string) => {
-    const regPCLine = padNumber<number>(cpu.PC, 4);
-    const regALine = padNumber<number>(cpu.A, 2);
-    const l = `${regPCLine} ${regALine} | ${asm}\n>`;
->>>>>>> d3ad666 (Disassemble next opcode)
 
     const input = await rl.question(l);
     return input;

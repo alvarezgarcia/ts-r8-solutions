@@ -1,14 +1,7 @@
 import { describe, expect, it } from "vitest";
-<<<<<<< HEAD
-<<<<<<< HEAD
-import { CreateCPU, disassemble } from "./cpu";
-=======
-import { CreateCPU } from "./cpu";
->>>>>>> aee9513 (Added opcode constants)
-=======
-import { CreateCPU, disassemble } from "./cpu";
->>>>>>> db29849 (Disassemble 1-byte instructions)
-import { OpCode } from "./cpu.types";
+
+import { CreateCPU, disassemble, getTarget } from "./cpu";
+import { OpCode, Register8 } from "./cpu.types";
 
 describe("CPU", () => {
   it("initialises CPU", () => {
@@ -34,41 +27,19 @@ describe("CPU", () => {
     const cpu = CreateCPU();
     cpu.zero = true;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 4b6ffbf (Add runProgram)
     const program = new Uint8Array([
       OpCode.INC_A,
       OpCode.HALT,
     ]);
-<<<<<<< HEAD
 
     cpu.runProgram(program);
-=======
-    cpu.memory[0] = OpCode.INC_A;
->>>>>>> aee9513 (Added opcode constants)
 
-<<<<<<< HEAD
-=======
-
-    cpu.runProgram(program);
->>>>>>> 4b6ffbf (Add runProgram)
-    expect(cpu.A).toBe(1);
-=======
     expect(cpu.A).toBe(0x01);
->>>>>>> 8d12290 (Switched to hex numbers)
     expect(cpu.zero).toBe(false);
   });
 
   it("inc wraps A register from FF to 0", () => {
     const cpu = CreateCPU();
-<<<<<<< HEAD
-=======
-
-<<<<<<< HEAD
-    cpu.memory[0] = OpCode.INC_A;
->>>>>>> aee9513 (Added opcode constants)
     cpu.A = 255;
 
     const program = new Uint8Array([
@@ -78,20 +49,7 @@ describe("CPU", () => {
 
     cpu.runProgram(program);
 
-<<<<<<< HEAD
-=======
-    const program = new Uint8Array([
-      OpCode.INC_A,
-      OpCode.HALT,
-    ]);
-
-    cpu.A = 255;
-    cpu.runProgram(program);
->>>>>>> 4b6ffbf (Add runProgram)
-    expect(cpu.A).toBe(0);
-=======
     expect(cpu.A).toBe(0x00);
->>>>>>> 8d12290 (Switched to hex numbers)
     expect(cpu.zero).toBe(true);
   });
 
@@ -112,39 +70,17 @@ describe("CPU", () => {
 
   it("dec wraps A register from 00 to FF", () => {
     const cpu = CreateCPU();
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-
-<<<<<<< HEAD
-    cpu.memory[0] = OpCode.DEC_A;
->>>>>>> aee9513 (Added opcode constants)
-    cpu.A = 0;
-=======
     cpu.A = 0x00;
->>>>>>> 8d12290 (Switched to hex numbers)
     cpu.zero = true;
 
-=======
->>>>>>> 4b6ffbf (Add runProgram)
     const program = new Uint8Array([
       OpCode.DEC_A,
       OpCode.HALT,
     ]);
-<<<<<<< HEAD
 
     cpu.runProgram(program);
 
-<<<<<<< HEAD
-=======
-
-    cpu.A = 0;
-    cpu.runProgram(program);
->>>>>>> 4b6ffbf (Add runProgram)
-    expect(cpu.A).toBe(255);
-=======
     expect(cpu.A).toBe(0xFF);
->>>>>>> 8d12290 (Switched to hex numbers)
     expect(cpu.zero).toBe(false);
   });
 
@@ -167,16 +103,10 @@ describe("CPU", () => {
   it("runs until halted", () => {
     const cpu = CreateCPU();
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 4b6ffbf (Add runProgram)
     const program = new Uint8Array([
       OpCode.INC_A,
       OpCode.HALT,
     ]);
-<<<<<<< HEAD
 
     cpu.runProgram(program);
     expect(cpu.PC).toBe(0x0002);
@@ -276,26 +206,14 @@ describe("CPU", () => {
     const cpu = CreateCPU();
 
     const program = new Uint8Array([
-<<<<<<< HEAD
-      OpCode.LD_A, 0,
-      OpCode.BEQ, 1,
-=======
-      OpCode.LD_A, 10,
-      OpCode.DEC_A,
-      OpCode.BEQ, 3,
-      OpCode.JMP, 2, 0,
->>>>>>> 4a909c9 (Add beq opcode)
+      OpCode.LD_A, 0x00,
+      OpCode.BEQ, 0x01,
       OpCode.HALT,
     ]);
 
     cpu.runProgram(program);
 
-<<<<<<< HEAD
-    expect(cpu.PC).toBe(6);
-=======
-    expect(cpu.A).toBe(0);
-    expect(cpu.PC).toBe(9);
->>>>>>> 4a909c9 (Add beq opcode)
+    expect(cpu.PC).toBe(0x0006);
   });
 
   it("beq does not branch if zero flag clear", () => {
@@ -311,38 +229,6 @@ describe("CPU", () => {
 
     expect(cpu.PC).toBe(0x0005);
   });
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-  it("cmp sets zero flag if operand is equal", () => {
-    const cpu = CreateCPU();
-
-    const program = new Uint8Array([
-      OpCode.LD_A, 1,
-      OpCode.CMP_A, 1,
-      OpCode.HALT,
-    ]);
-
-    cpu.runProgram(program);
-
-    expect(cpu.zero).toBe(true);
-  });
-
-  it("cmp clears zero flag if operand is not equal", () => {
-    const cpu = CreateCPU();
-
-    const program = new Uint8Array([
-      OpCode.LD_A, 0,
-      OpCode.CMP_A, 1,
-      OpCode.HALT,
-    ]);
-
-    cpu.runProgram(program);
-
-    expect(cpu.zero).toBe(false);
-  });
-=======
->>>>>>> db29849 (Disassemble 1-byte instructions)
 
   it("cmp sets zero flag if operand is equal", () => {
     const cpu = CreateCPU();
@@ -372,17 +258,61 @@ describe("CPU", () => {
     expect(cpu.zero).toBe(false);
   });
 
+  it("getTarget function extracts register id from opcode", () => {
+    const cases = [
+      {
+        opcode: OpCode.ADD_A,
+        target: Register8.A
+      },
+      {
+        opcode: OpCode.ADD_B,
+        target: Register8.B,
+      },
+      {
+        opcode: OpCode.CMP_A,
+        target: Register8.A,
+      },
+      {
+        opcode: OpCode.CMP_B,
+        target: Register8.B,
+      },
+      {
+        opcode: OpCode.DEC_A,
+        target: Register8.A,
+      },
+      {
+        opcode: OpCode.DEC_B,
+        target: Register8.B,
+      },
+      {
+        opcode: OpCode.INC_A,
+        target: Register8.A,
+      },
+      {
+        opcode: OpCode.INC_B,
+        target: Register8.B,
+      },
+      {
+        opcode: OpCode.LD_A,
+        target: Register8.A,
+      },
+      {
+        opcode: OpCode.LD_B,
+        target: Register8.B,
+      }
+    ];
+
+    for (const c of cases) {
+      const targetRegister = getTarget(c.opcode);
+      expect(targetRegister).toBe(c.target);
+    }
+  });
+
   it("disassemble function correctly disassembles code", () => {
     const cases = [
       {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        code: new Uint8Array([OpCode.BEQ, 3]),
-        source: "beq 3",
-=======
         code: new Uint8Array([OpCode.BEQ, 0x03]),
         source: "beq 0x03",
->>>>>>> 8d12290 (Switched to hex numbers)
       },
       {
         code: new Uint8Array([OpCode.CMP_A, 0x01]),
@@ -414,93 +344,15 @@ describe("CPU", () => {
       },
       {
         code: new Uint8Array([255]),
-=======
-        code:   OpCode.DEC_A,
-        source: "dec a",
-      },
-      {
-        code:   OpCode.HALT,
-        source: "halt",
-      },
-      {
-        code:   OpCode.INC_A,
-        source: "inc a",
-      },
-      {
-        code:   255,
->>>>>>> db29849 (Disassemble 1-byte instructions)
         source: "???",
       },
     ];
 
     for (const c of cases) {
-<<<<<<< HEAD
-<<<<<<< HEAD
       const [source, bytes] = disassemble(c.code);
 
       expect(source).toBe(c.source);
       expect(bytes).toBe(c.code.length);
     }
   });
-=======
-    cpu.memory[0] = 48; // inc a
-    cpu.memory[1] = 0;
-=======
-    cpu.memory[0] = OpCode.INC_A;
-    cpu.memory[1] = OpCode.HALT;
->>>>>>> aee9513 (Added opcode constants)
-=======
->>>>>>> 4b6ffbf (Add runProgram)
-
-    cpu.runProgram(program);
-    expect(cpu.PC).toBe(2);
-  });
-<<<<<<< HEAD
->>>>>>> d5bbd40 (Run until halted)
-=======
-
-  it("loads accumulator", () => {
-    const cpu = CreateCPU();
-
-    cpu.A = 10;
-    const program = new Uint8Array([
-      OpCode.LD_A, 5,
-      OpCode.HALT,
-    ]);
-
-    cpu.runProgram(program);
-    expect(cpu.A).toBe(5);
-    expect(cpu.PC).toBe(3);
-  });
-<<<<<<< HEAD
->>>>>>> 31c6f01 (Add ld a opcode)
-=======
-
-  it("add adds to accumulator", () => {
-    const cpu = CreateCPU();
-
-    const program = new Uint8Array([
-      OpCode.ADD_A, 2,
-      OpCode.HALT
-    ]);
-    cpu.A = 1;
-
-    cpu.runProgram(program);
-    expect(cpu.A).toBe(3);
-    expect(cpu.PC).toBe(3);
-  });
->>>>>>> b7eeb9d (Add add a opcode)
-=======
->>>>>>> 4a909c9 (Add beq opcode)
-=======
-      const source = disassemble(c.code);
-=======
-      const [source, bytes] = disassemble(c.code);
-
->>>>>>> a05896b (disasm cli)
-      expect(source).toBe(c.source);
-      expect(bytes).toBe(c.code.length);
-    }
-  });
->>>>>>> db29849 (Disassemble 1-byte instructions)
 });

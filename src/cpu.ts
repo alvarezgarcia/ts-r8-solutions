@@ -4,6 +4,7 @@ import {
   Register16,
   OpCode,
 } from "./cpu.types";
+import { padNumber, readWordLE } from "./utils";
 
 const MEM_SIZE = 65536;
 
@@ -19,12 +20,6 @@ export const CreateCPU = (): CPU => {
     run();
   };
 
-  const runProgram = (program: Uint8Array) => {
-    memory.set(program);
-    regs16[Register16.PC] = 0;
-    run();
-  };
-
   const fetch = () => {
     const value = memory[regs16[Register16.PC]];
     regs16[Register16.PC]++;
@@ -35,59 +30,22 @@ export const CreateCPU = (): CPU => {
     zero = value === 0x00;
   };
 
-<<<<<<< HEAD
-=======
-  const fetch = () => {
-    const value = memory[regs16[Register16.PC]];
-    regs16[Register16.PC]++;
-    return value;
-  };
-
->>>>>>> e38603e (Add fetch)
   const step = () => {
     const opcode = fetch();
 
     switch (opcode) {
-<<<<<<< HEAD
-<<<<<<< HEAD
       case OpCode.HALT:
         return false;
 
       case OpCode.LD_A:
-<<<<<<< HEAD
-<<<<<<< HEAD
         const operand = fetch();
         regs8[Register8.A] = operand;
         updateZero(regs8[Register8.A]);
-=======
-      case 0: // halt
-=======
-      case OpCode.HALT:
->>>>>>> aee9513 (Added opcode constants)
-        return false;
-=======
-        const operand = memory[regs16[Register16.PC]];
-        regs16[Register16.PC]++;
-=======
-        const operand = fetch();
->>>>>>> e38603e (Add fetch)
-        regs8[Register8.A] = operand;
-        break;
->>>>>>> 31c6f01 (Add ld a opcode)
-
-      case OpCode.INC_A:
-        regs8[Register8.A]++;
->>>>>>> d5bbd40 (Run until halted)
         break;
 
-<<<<<<< HEAD
       case OpCode.INC_A:
         regs8[Register8.A]++;
         updateZero(regs8[Register8.A]);
-=======
-      case OpCode.DEC_A:
-        regs8[Register8.A]--;
->>>>>>> aee9513 (Added opcode constants)
         break;
 
       case OpCode.DEC_A:
@@ -98,7 +56,6 @@ export const CreateCPU = (): CPU => {
       case OpCode.ADD_A:
         const addOperand = fetch();
         regs8[Register8.A] += addOperand;
-<<<<<<< HEAD
         updateZero(regs8[Register8.A]);
         break;
 
@@ -122,7 +79,7 @@ export const CreateCPU = (): CPU => {
       case OpCode.JMP:
         const addressLow = fetch();
         const addressHigh = fetch();
-        const newAddress = (addressHigh << 8) | addressLow;
+        const newAddress = readWordLE(addressLow, addressHigh);
         regs16[Register16.PC] = newAddress;
         break;
 
@@ -132,16 +89,6 @@ export const CreateCPU = (): CPU => {
           process.stdout.write(String.fromCharCode(regs8[Register8.A]));
         }
         break;
-    }
-
-    return true;
-  };
-
-  const run = () => {
-    while (step()) {
-=======
-        break;
->>>>>>> b7eeb9d (Add add a opcode)
     }
 
     return true;
@@ -173,16 +120,8 @@ export const CreateCPU = (): CPU => {
     },
     memory,
     step,
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     runProgram,
-=======
->>>>>>> d5bbd40 (Run until halted)
     run
-=======
-    runProgram
->>>>>>> 4b6ffbf (Add runProgram)
   };
 };
 
@@ -191,7 +130,7 @@ const formatByte = (code: Uint8Array): string => {
     return "???"
   }
 
-  return `0x${code[0].toString(16).toUpperCase().padStart(2, '0')}`;
+  return padNumber(code[0], 2);
 };
 
 const formatWord = (code: Uint8Array): string => {
@@ -201,9 +140,9 @@ const formatWord = (code: Uint8Array): string => {
 
   const addressLow = code[0];
   const addressHigh = code[1];
-  const newAddress = (addressHigh << 8) | addressLow;
+  const newAddress = readWordLE(addressLow, addressHigh);
 
-  return `0x${newAddress.toString(16).toUpperCase().padStart(4, '0')}`;
+  return padNumber(newAddress, 4);
 };
 
 export const disassemble = (code: Uint8Array): [string, number] => {
@@ -219,12 +158,6 @@ export const disassemble = (code: Uint8Array): [string, number] => {
 
     case OpCode.DEC_A:
       return ["dec a", 1];
-<<<<<<< HEAD
-
-    case OpCode.CMP_A:
-      return [`cmp a, ${formatByte(code.subarray(1))}`, 2];
-=======
->>>>>>> a05896b (disasm cli)
 
     case OpCode.CMP_A:
       return [`cmp a, ${formatByte(code.subarray(1))}`, 2];
@@ -234,33 +167,15 @@ export const disassemble = (code: Uint8Array): [string, number] => {
 
     case OpCode.JMP:
       return [`jmp ${formatWord(code.subarray(1))}`, 3];
-<<<<<<< HEAD
 
     case OpCode.TRAP:
       return [`trap ${formatByte(code.subarray(1))}`, 2];
 
     default:
       return ["???", 1];
-=======
-    runProgram,
-  };
+  }
 };
 
-export const disassemble = (code: number): string => {
-  switch (code) {
-    case OpCode.DEC_A:
-      return "dec a"
-    case OpCode.HALT:
-      return "halt"
-    case OpCode.INC_A:
-      return "inc a"
-    default:
-      return "???"
->>>>>>> db29849 (Disassemble 1-byte instructions)
-=======
-
-    default:
-      return ["???", 1];
->>>>>>> a05896b (disasm cli)
-  }
+export const getTarget = (opcode: number): Register8 => {
+  return opcode & 0x0F;
 };
